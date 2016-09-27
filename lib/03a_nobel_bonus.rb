@@ -14,5 +14,14 @@ require_relative './sqlzoo.rb'
 def physics_no_chemistry
   # In which years was the Physics prize awarded, but no Chemistry prize?
   execute(<<-SQL)
+  SELECT
+    yr
+  FROM
+    nobels
+  GROUP BY
+    yr
+  HAVING
+    COUNT(case subject when 'Physics' then 1 else null end) > 0 AND
+    COUNT(case subject when 'Chemistry' then 1 else null end) < 1
   SQL
 end
